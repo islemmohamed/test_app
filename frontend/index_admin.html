@@ -3,134 +3,329 @@
 <title>W3.CSS Template</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="assets/css/admin.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400" rel="stylesheet">
 <style>
-body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
-.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
-.fa-anchor,.fa-coffee {font-size:200px}
+
 </style>
 <body >
 <div id="app">
-<!-- Navbar -->
-<div class="w3-top">
-  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
-    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 1</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 2</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Link 3</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" @click='logout'>logout</a>
+
+<!--top Nav-->
+  <div class="topnav">
+    <div class="search-container">
+      <form>
+        <input type="text" v-model="search" placeholder="Search.." name="search">
+        <button class="search_btn"><i class="fa fa-search"></i></button>
+      </form>
+    </div>
   </div>
 
-  <!-- Navbar on small screens -->
-  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large" @click='logout'>logout</a>
-  </div>
-</div>
-
-<!-- Header -->
-<header  class="w3-container w3-red w3-center" style="padding:128px 16px">
-  <h1 class="w3-margin w3-jumbo">START PAGE</h1>
-  <p class="w3-xlarge">{{message}}</p>
-  <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Get Started</button>
-</header>
-
-<!-- First Grid -->
-<div class="w3-row-padding w3-padding-64 w3-container">
-  <div class="w3-content">
-    <div class="w3-twothird">
-      <h1>Lorem Ipsum</h1>
-      <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
-
-      <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat.</p>
+  <!--list users-->
+  <div class="cards-list">
+    <div class="add " @click="addUser">
+      <span>+</span>
     </div>
 
-    <div class="w3-third w3-center">
-      <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
+   
+    <!--card-->  
+  <div class="grid-7 element-animation" v-for="user in filteredList">
+    <div class="card color-card-2">
+      <ul>
+        <li v-if="user.Role==='User'" @click="deleteUser(user)"><i class="fas fa-trash-alt i-r b"></i></li>
+      </ul>
+      <img :src=user.image alt="profile-pic" class="profile">
+      <h1 class="title-2">{{user.Nom}} {{user.Prenom}}</h1>
+      <p class="job-title"> {{user.Email}}</p>
+      <div class="desc top">
+        <p>{{user.Role}}</p>
+      </div>
+      <button class="btn color-a top" @click="updatUser(user)"> Update</button>
+      <hr class="hr-2">
     </div>
   </div>
 </div>
 
-<!-- Second Grid -->
-<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
-  <div class="w3-content">
-    <div class="w3-third w3-center">
-      <i class="fa fa-coffee w3-padding-64 w3-text-red w3-margin-right"></i>
-    </div>
-
-    <div class="w3-twothird">
-      <h1>Lorem Ipsum</h1>
-      <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
-
-      <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
+<!--sidebar form-->
+<div class="sidebar" id="mySidepanel">
+  <a href="javascript:void(0)" class="closebtn" @click="closeForm">×</a>
+  <div class="registerForm">
+    <form @submit.prevent="register">
+      <fieldset>
+      <legend><span class="number">*</span> {{message}}</legend>
+      <!--image field-->
+      <div class="profile-picture-upload">
+        <img src="" alt="Profile picture preview" class="imagePreview">
+        <button class="action-button mode-upload">Upload avatar</button>
+        <input type="file" class="hidden" name="fileInput" />
+      </div>
+      <br><br>
+      <!--user infos-->
+      <input type="text" v-model="nom" required name="name" placeholder="First Name">
+      <input type="text" v-model="prenom" required name="prenom" placeholder="Last Name">
+      <input name="user-email" v-model="email" required placeholder="Email" type="email">
+      <input type="text" v-model="telephone" required name="telephone" placeholder="Phone Number">
+      <input type="text" v-model="Username" required name="user-name" placeholder="Username">
+      <input type="password" pattern=".{8,}" title="Eight or more characters" v-model="Password" required name="password" @change="confirmPassword" placeholder="Password">
+      <input type="password"  required name="confirm" @change="confirmPassword" placeholder="Confirm Password">
+      <input type="date" v-model="datenaissance" required name="datenaissance" placeholder="Birth Date" >
+      <select v-model="role" required name="Role">
+          <option value="Admin">Admin</option>
+          <option value="User">User</option>
+      </select>
+      <div class="button-box">
+          <button type="submit" class="btn color-a"><span>Register</span></button>
+      </div>
+      </fieldset>
+    </form>
   </div>
 </div>
 
-<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
-    <h1 class="w3-margin w3-xlarge">Quote of the day: live life</h1>
+
+    
 </div>
 
-<!-- Footer -->
-<footer class="w3-container w3-padding-64 w3-center w3-opacity">  
-  <div class="w3-xlarge w3-padding-32">
-    <i class="fa fa-facebook-official w3-hover-opacity"></i>
-    <i class="fa fa-instagram w3-hover-opacity"></i>
-    <i class="fa fa-snapchat w3-hover-opacity"></i>
-    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-    <i class="fa fa-twitter w3-hover-opacity"></i>
-    <i class="fa fa-linkedin w3-hover-opacity"></i>
- </div>
- <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-</footer>
-</div>
-<script>
-// Used to toggle the menu on small screens when clicking on the menu button
-function myFunction() {
-  var x = document.getElementById("navDemo");
-  if (x.className.indexOf("w3-show") == -1) {
-    x.className += " w3-show";
-  } else { 
-    x.className = x.className.replace(" w3-show", "");
-  }
-}
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
-        
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>  
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
 
 <script>
-
+//vuejs instance
 var app = new Vue({
   el: '#app',
 
   data: {
-    message: 'welcom admin !'
+    search:'',//search inpute
+    request:'',//request type(update, add)
+    users:[],//array of all users
+    message:'add User',//sidebar h1 title
+    //form data
+    image:'https://www.drupal.org/files/profile_default.png',//image default value
+    idUser:0,
+    nom: '',
+    prenom: '',
+    telephone: '',
+    datenaissance: '',
+    email: '',      
+    role: "User",//User as default value
+    Username:'',
+    Password:'',
+    ConfirmPassword:'',
   },
-
+ 
+  computed: {
+    //search bar
+    filteredList() {
+      return this.users.filter(user => {
+        return user.Nom.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
+  },
   methods: {
+
+   //update User
+    updatUser(user) {
+        this.request="userUpdate"
+        this.message="UPDATE USER";
+        this.idUser=user.idUser;
+        this.nom= user.Nom;
+        this.prenom= user.Prenom;
+        this.telephone=user.Telephone;
+        this.datenaissance= user.Datenaissance;
+        this.email= user.Email;    
+        this.role= user.Role;
+        this.Username=user.Username;
+        this.Password=user.Password;
+        this.ConfirmPassword=user.Password;
+      document.getElementById("mySidepanel").style.right = "0";
+    },
+
+    //add user
+    addUser(user) {
+      this.request="register"
+      this.message="ADD USER"
+      document.getElementById("mySidepanel").style.right = "0";
+    },
+    //delete a user
+    deleteUser(user){
+      var r=confirm("You want to delete user: "+user.Nom+" "+user.Prenom+" ?" );
+      if (r == true) {
+      axios({
+        method: 'post',
+        url: 'http://localhost:3000/userDelete',
+        //id user
+        data: {
+            idUser:user.idUser,
+        }
+    }).then(function (response) {
+        console.log(response);
+        app.getAllUsers();
+    }).catch(function (error) {
+        console.log(error);
+        alert(error);
+    });}
+
+    },
+
+    //close form
+    closeForm() {
+        this.message='';
+        this.nom= '';
+        this.prenom= '';
+        this.telephone='';
+        this.datenaissance= '';
+        this.email= '';     
+        this.role= '';
+        this.Username='';
+        this.Password='';
+        this.ConfirmPassword='';
+        document.getElementById("mySidepanel").style.right = "-50%";
+      },
+
   //logout method
     logout() {
       localStorage.clear();
       window.location = 'http://127.0.0.1:5501/frontend/login-register.html';
+    },
+
+    //get all users 
+   getAllUsers() {
+    axios({
+            method: 'get',
+            url: 'http://localhost:3000/users',
+          
+        }).then(function (response) {
+            app.users=response.data;
+            console.log(app.users);
+        }).catch(function (error) {
+
+            console.log(error);
+            alert(error);
+
+    })},
+
+  // register(update or adduser) method
+      register() {
+    if(this.Username != "" && this.Password != "") {
+
+    axios({
+        method: 'post',
+        //'this.request decide witch type of request(update,add)'
+        url: 'http://localhost:3000/'+this.request,
+        //user object
+        data: {
+            idUser:this.idUser,
+            image:this.image,
+            Nom: this.nom,
+            Prenom: this.prenom,
+            Telephone: this.telephone,
+            Datenaissance: this.datenaissance,
+            Email: this.email,
+            username: this.Username,
+            password: this.Password,
+            role: this.role,
+        }
+    }).then(function (response) {
+        console.log(response);
+        app.getAllUsers();
+       
+
+    }).catch(function (error) {
+
+        console.log(error);
+        alert(error);
+
+    });
+
     }
-  }
+    },
+
+
+    //password confirmation method
+    confirmPassword() {
+        const password = document.querySelector('input[name=password]');
+        const confirm = document.querySelector('input[name=confirm]');
+        if (confirm.value === password.value) {
+            confirm.setCustomValidity('');
+        } else {
+            confirm.setCustomValidity('Passwords do not match');
+        }
+        }
+
+    },     
+  
 
 
 });
 
+     //image preview
+let picturePreview = document.querySelector(".imagePreview");
+let actionButton = document.querySelector(".action-button");
+let fileInput = document.querySelector("input[name='fileInput']");
+let fileReader = new FileReader();
 
-       
+const DEFAULT_IMAGE_SRC = "https://www.drupal.org/files/profile_default.png";
+
+actionButton.addEventListener("click", () => {
+  if ( picturePreview.src !== DEFAULT_IMAGE_SRC ) {
+    resetImage();
+  } else {
+    fileInput.click();
+  }
+});
+
+fileInput.addEventListener("change", () => {
+  refreshImagePreview();
+});
+
+//back to default image
+function resetImage() {
+  setActionButtonMode("upload");
+  picturePreview.src = DEFAULT_IMAGE_SRC;
+  fileInput.value = "";
+}
+
+//button css mode function(upload,remove)
+function setActionButtonMode(mode) {
+  let modes = {
+    "upload": function() {
+      actionButton.innerText = "Upload avatar";
+      actionButton.classList.remove("mode-remove");
+      actionButton.classList.add("mode-upload");
+    },
+    "remove": function() {
+      actionButton.innerText = "Remove avatar";
+      actionButton.classList.remove("mode-upload");
+      actionButton.classList.add("mode-remove");
+    }
+  }
+  return (modes[mode]) ? modes[mode]() : console.error("unknown mode");
+}
+//get file path
+function refreshImagePreview() {
+  if ( picturePreview.src !== DEFAULT_IMAGE_SRC ) {
+    picturePreview.src = DEFAULT_IMAGE_SRC;
+  } else {
+    if ( fileInput.files && fileInput.files.length > 0 ){
+      fileReader.readAsDataURL(fileInput.files[0]);
+      fileReader.onload = (e) => {
+        app.image= e.target.result;
+        alert(app.image);
+        picturePreview.src = e.target.result;
+        setActionButtonMode("remove");
+      }
+    }
+  }
+}
+
+refreshImagePreview();
+    
+
+app.getAllUsers();//first call to get all users
 </script>
 
 </body>
